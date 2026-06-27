@@ -2,6 +2,9 @@ packages:
   - "packages/core"
   - "packages/providers/*"
   - "packages/frameworks/*"
+  - "apps/*"
   - "examples/*"
 allowBuilds:
   esbuild: true
+  # Not needed: the web app uses Next static export with unoptimized images.
+  sharp: false
