@@ -2,7 +2,7 @@
 
 <img src=".github/assets/cover.png" alt="Web Search SDK — one unified web search API for every provider" width="100%" />
 
-# websearch-sdk
+# search-sdk
 
 **A unified web search SDK to plug into AI agents.**
 
@@ -34,7 +34,7 @@ Swap search/scrape providers without touching your app code, and hand framework-
 
 Every web-search / scrape provider has a different API shape, auth scheme, and response format — and every agent framework has its own tool format. You end up rewriting glue for each combination.
 
-`websearch-sdk` normalizes both sides:
+`search-sdk` normalizes both sides:
 
 - **Unified output** — `search()` and `scrape()` always return the same shape, regardless of provider.
 - **Plug-and-play providers** — one small factory per provider; switch providers by changing a single line.
