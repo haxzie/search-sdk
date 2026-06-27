@@ -1,6 +1,6 @@
 {
   "name": "@search-sdk/firecrawl",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Firecrawl provider for @search-sdk — web search + scrape.",
   "type": "module",
   "license": "MIT",
@@ -15,7 +15,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
