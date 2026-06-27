@@ -61,6 +61,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
+    site: "@haxzie",
     creator: "@haxzie",
     images: [OG_IMAGE],
   },
