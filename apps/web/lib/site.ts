@@ -1,4 +1,4 @@
-export const SITE_URL = "https://websearch-sdk.dev";
+export const SITE_URL = "https://search-sdk.dev";
 
 export const GITHUB_REPO = "haxzie/search-sdk";
 export const GITHUB_URL = `https://github.com/${GITHUB_REPO}`;

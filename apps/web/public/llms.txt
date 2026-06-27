@@ -6,9 +6,9 @@ search-sdk normalizes two things that differ across every integration: the respo
 
 ## Documentation
 
-- [Docs](https://websearch-sdk.dev/docs/): Install, search, scrape, hand tools to your agent, error handling, unified types, architecture, and adding a provider.
-- [Providers](https://websearch-sdk.dev/providers/): Firecrawl, Tavily, Exa, Brave and Serper — capabilities, env variables, and per-provider setup.
-- [Adapters](https://websearch-sdk.dev/adapters/): Turn unified capabilities into framework-native tools; built-in Vercel AI SDK adapter and custom adapters.
+- [Docs](https://search-sdk.dev/docs/): Install, search, scrape, hand tools to your agent, error handling, unified types, architecture, and adding a provider.
+- [Providers](https://search-sdk.dev/providers/): Firecrawl, Tavily, Exa, Brave and Serper — capabilities, env variables, and per-provider setup.
+- [Adapters](https://search-sdk.dev/adapters/): Turn unified capabilities into framework-native tools; built-in Vercel AI SDK adapter and custom adapters.
 
 ## Packages
 
