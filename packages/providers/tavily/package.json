@@ -1,6 +1,6 @@
 {
   "name": "@search-sdk/tavily",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Tavily provider for @search-sdk — AI web search + extract.",
   "type": "module",
   "license": "MIT",

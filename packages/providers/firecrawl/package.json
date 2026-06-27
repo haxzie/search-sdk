@@ -1,6 +1,6 @@
 {
   "name": "@search-sdk/firecrawl",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Firecrawl provider for @search-sdk — web search + scrape.",
   "type": "module",
   "license": "MIT",

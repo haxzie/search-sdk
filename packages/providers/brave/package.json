@@ -1,6 +1,6 @@
 {
   "name": "@search-sdk/brave",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Brave Search provider for @search-sdk — independent-index web search.",
   "type": "module",
   "license": "MIT",
