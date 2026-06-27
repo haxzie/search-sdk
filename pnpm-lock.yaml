@@ -189,16 +189,6 @@ importers:
         specifier: ^3.24.1
         version: 3.25.76
 
-  packages/search-sdk:
-    dependencies:
-      '@search-sdk/core':
-        specifier: workspace:*
-        version: link:../core
-    devDependencies:
-      ai:
-        specifier: ^5.0.0
-        version: 5.0.206(zod@3.25.76)
-
 packages:
 
   '@ai-sdk/gateway@2.0.105':

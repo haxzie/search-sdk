@@ -1,6 +1,5 @@
 packages:
   - "packages/core"
-  - "packages/search-sdk"
   - "packages/providers/*"
   - "apps/*"
   - "examples/*"
