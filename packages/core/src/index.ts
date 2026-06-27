@@ -8,11 +8,15 @@ export {
   isMissingApiKeyError,
 } from "./errors";
 
-export { resolveApiKey } from "./env";
+export { resolveApiKey, resolveOptionalApiKey } from "./env";
 export type { ResolveApiKeyOptions } from "./env";
 
 export type { SearchProvider, ProviderCapabilities } from "./provider";
 export type { FrameworkAdapter, FrameworkContext } from "./framework";
+
+// Built-in default framework adapter (Vercel AI SDK).
+export { aiSdk } from "./frameworks/ai-sdk";
+export type { AiSdkOptions } from "./frameworks/ai-sdk";
 
 export type {
   SearchOptions,

@@ -1,6 +1,6 @@
-import type { FrameworkAdapter, FrameworkContext } from "@websearch-sdk/core";
 import { tool, type ToolSet } from "ai";
 import { z } from "zod";
+import type { FrameworkAdapter, FrameworkContext } from "../framework";
 
 export interface AiSdkOptions {
   /** Override the search tool name (default: "web_search"). */
@@ -19,12 +19,14 @@ const DEFAULT_SCRAPE_DESCRIPTION =
   "Fetch a specific URL and extract its contents as clean markdown.";
 
 /**
- * Vercel AI SDK adapter. Returns a `ToolSet` (a plain record of tools) that
- * drops straight into `generateText` / `streamText`. Targets AI SDK v5, which
- * uses `inputSchema` (v4 used `parameters`).
+ * Vercel AI SDK adapter — the default framework shipped with core. Returns a
+ * `ToolSet` (a plain record of tools) that drops straight into `generateText` /
+ * `streamText`. Targets AI SDK v5, which uses `inputSchema` (v4 used
+ * `parameters`).
  *
- * The `web_scrape` tool is only included when the active provider supports
- * scraping, so search-only providers (Brave, Serper) expose just `web_search`.
+ * `web.tools()` uses this automatically when no `framework` is configured. The
+ * `web_scrape` tool is only included when the active provider supports scraping,
+ * so search-only providers (Brave, Serper) expose just `web_search`.
  */
 export function aiSdk(options: AiSdkOptions = {}): FrameworkAdapter<ToolSet> {
   const searchName = options.searchToolName ?? "web_search";

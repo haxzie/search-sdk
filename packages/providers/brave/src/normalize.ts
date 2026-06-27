@@ -1,5 +1,5 @@
-import { hostnameOf } from "@websearch-sdk/core";
-import type { SearchResponse, SearchResult } from "@websearch-sdk/core";
+import { hostnameOf } from "@search-sdk/core";
+import type { SearchResponse, SearchResult } from "@search-sdk/core";
 
 export interface BraveWebResult {
   title?: string;

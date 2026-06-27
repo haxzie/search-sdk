@@ -1,7 +1,7 @@
 {
-  "name": "@websearch-sdk/exa",
+  "name": "@search-sdk/exa",
   "version": "0.0.0",
-  "description": "Exa provider for @websearch-sdk — neural web search + contents.",
+  "description": "Exa provider for @search-sdk — neural web search + contents.",
   "type": "module",
   "license": "MIT",
   "sideEffects": false,
@@ -23,7 +23,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@websearch-sdk/core": "workspace:*",
+    "@search-sdk/core": "workspace:*",
     "zod": "^3.24.1"
   },
   "publishConfig": {

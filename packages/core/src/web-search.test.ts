@@ -79,8 +79,10 @@ describe("WebSearch.tools", () => {
     expect(tools).toEqual({ web_search: {} });
   });
 
-  it("throws when no framework adapter is configured", () => {
+  it("falls back to the built-in AI SDK adapter when no framework is configured", () => {
     const web = new WebSearch({ provider: makeProvider() });
-    expect(() => web.tools()).toThrow(WebSearchError);
+    const tools = web.tools();
+    // Default ai-sdk adapter exposes web_search (+ web_scrape for this provider).
+    expect(Object.keys(tools)).toContain("web_search");
   });
 });

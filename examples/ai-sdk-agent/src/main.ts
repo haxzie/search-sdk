@@ -2,22 +2,22 @@
  * Runnable demo. Requires API keys in the environment:
  *   FIRECRAWL_API_KEY, OPENAI_API_KEY
  *
- * Run with: pnpm --filter @websearch-sdk/example-ai-sdk-agent start
+ * Run with: pnpm --filter @search-sdk/example-ai-sdk-agent start
  *
  * Swap `firecrawl(...)` for `tavily(...)`, `exa(...)`, `brave(...)` or
  * `serper(...)` and the rest of the code stays identical — that's the point:
  * the unified core means downstream code never changes when you change provider.
  */
 import { openai } from "@ai-sdk/openai";
-import { WebSearch } from "@websearch-sdk/core";
-import { aiSdk } from "@websearch-sdk/ai-sdk";
-import { firecrawl } from "@websearch-sdk/firecrawl";
+import { WebSearch } from "@search-sdk/core";
+import { firecrawl } from "@search-sdk/firecrawl";
 import { stepCountIs, streamText } from "ai";
 
 async function main() {
+  // No `framework` needed — tools() uses the built-in AI SDK adapter by default.
+  // (Import `aiSdk` from "@search-sdk/core" and pass `framework: aiSdk({...})` to customize.)
   const web = new WebSearch({
     provider: firecrawl(),
-    framework: aiSdk(),
   });
 
   // 1. Direct, unified API.

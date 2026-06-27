@@ -1,11 +1,11 @@
-import { requestJson, resolveApiKey } from "@websearch-sdk/core";
+import { requestJson, resolveOptionalApiKey } from "@search-sdk/core";
 import type {
   ScrapeOptions,
   ScrapeResult,
   SearchOptions,
   SearchProvider,
   SearchResponse,
-} from "@websearch-sdk/core";
+} from "@search-sdk/core";
 import { z } from "zod";
 import {
   normalizeScrape,
@@ -20,7 +20,11 @@ const optionsSchema = z.object({
 });
 
 export interface FirecrawlOptions {
-  /** Defaults to the `FIRECRAWL_API_KEY` environment variable. */
+  /**
+   * Optional. Defaults to the `FIRECRAWL_API_KEY` environment variable. If no
+   * key is provided or found, the provider runs against Firecrawl's keyless
+   * free tier (rate-limited) — no key required.
+   */
   apiKey?: string;
   /** Override the API base URL (defaults to https://api.firecrawl.dev). */
   baseUrl?: string;
@@ -31,14 +35,17 @@ const ENV_VARS = ["FIRECRAWL_API_KEY"];
 
 export function firecrawl(options: FirecrawlOptions = {}): SearchProvider {
   const parsed = optionsSchema.parse(options);
-  const apiKey = resolveApiKey({
-    provider: "firecrawl",
+  // Firecrawl supports a keyless free tier: when no key is available, send no
+  // Authorization header. https://www.firecrawl.dev/blog/firecrawl-keyless-launch
+  const apiKey = resolveOptionalApiKey({
     apiKey: parsed.apiKey,
     envVars: ENV_VARS,
   });
   const baseUrl = parsed.baseUrl;
   const base = (baseUrl ?? DEFAULT_BASE_URL).replace(/\/$/, "");
-  const headers = { authorization: `Bearer ${apiKey}` };
+  const headers: Record<string, string> = apiKey
+    ? { authorization: `Bearer ${apiKey}` }
+    : {};
 
   return {
     name: "firecrawl",

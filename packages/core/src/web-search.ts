@@ -1,5 +1,7 @@
+import type { ToolSet } from "ai";
 import { WebSearchError } from "./errors";
 import type { FrameworkAdapter } from "./framework";
+import { aiSdk } from "./frameworks/ai-sdk";
 import type { SearchProvider } from "./provider";
 import type {
   ScrapeOptions,
@@ -10,6 +12,10 @@ import type {
 
 export interface WebSearchConfig<TFramework extends FrameworkAdapter> {
   provider: SearchProvider;
+  /**
+   * Framework adapter used by {@link WebSearch.tools}. Defaults to the built-in
+   * Vercel AI SDK adapter ({@link aiSdk}) when omitted.
+   */
   framework?: TFramework;
 }
 
@@ -25,7 +31,7 @@ export interface WebSearchConfig<TFramework extends FrameworkAdapter> {
  * ```
  */
 export class WebSearch<
-  TFramework extends FrameworkAdapter = FrameworkAdapter,
+  TFramework extends FrameworkAdapter = FrameworkAdapter<ToolSet>,
 > {
   readonly provider: SearchProvider;
   private readonly framework?: TFramework;
@@ -53,16 +59,14 @@ export class WebSearch<
     return this.provider.scrape(options);
   }
 
-  /** Build framework-native tools from the configured framework adapter. */
+  /**
+   * Build framework-native tools. Uses the configured framework adapter, or the
+   * built-in Vercel AI SDK adapter ({@link aiSdk}) when none was provided.
+   */
   tools(): ReturnType<TFramework["createTools"]> {
-    if (!this.framework) {
-      throw new WebSearchError(
-        "No framework adapter configured. Pass one to the WebSearch constructor, e.g. `new WebSearch({ provider, framework: aiSdk() })`.",
-        { provider: this.provider.name },
-      );
-    }
-    return this.framework.createTools({
-      web: this,
+    const framework = this.framework ?? (aiSdk() as unknown as TFramework);
+    return framework.createTools({
+      web: this as WebSearch,
       provider: this.provider,
     }) as ReturnType<TFramework["createTools"]>;
   }

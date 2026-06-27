@@ -1,5 +1,5 @@
 {
-  "name": "@websearch-sdk/example-ai-sdk-agent",
+  "name": "@search-sdk/example-ai-sdk-agent",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,13 +9,12 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.0",
-    "@websearch-sdk/ai-sdk": "workspace:*",
-    "@websearch-sdk/brave": "workspace:*",
-    "@websearch-sdk/core": "workspace:*",
-    "@websearch-sdk/exa": "workspace:*",
-    "@websearch-sdk/firecrawl": "workspace:*",
-    "@websearch-sdk/serper": "workspace:*",
-    "@websearch-sdk/tavily": "workspace:*",
+    "@search-sdk/brave": "workspace:*",
+    "@search-sdk/core": "workspace:*",
+    "@search-sdk/exa": "workspace:*",
+    "@search-sdk/firecrawl": "workspace:*",
+    "@search-sdk/serper": "workspace:*",
+    "@search-sdk/tavily": "workspace:*",
     "ai": "^5.0.0",
     "zod": "^3.24.1"
   },

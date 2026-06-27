@@ -49,23 +49,23 @@ Every web-search / scrape provider has a different API shape, auth scheme, and r
 
 ## Installation
 
-Install the core package plus whichever provider and framework adapter you need:
+Install the core package plus whichever provider you need:
 
 ```bash
 # pnpm
-pnpm add @websearch-sdk/core @websearch-sdk/firecrawl @websearch-sdk/ai-sdk
+pnpm add @search-sdk/core @search-sdk/firecrawl
 
 # npm
-npm install @websearch-sdk/core @websearch-sdk/firecrawl @websearch-sdk/ai-sdk
+npm install @search-sdk/core @search-sdk/firecrawl
 
 # yarn
-yarn add @websearch-sdk/core @websearch-sdk/firecrawl @websearch-sdk/ai-sdk
+yarn add @search-sdk/core @search-sdk/firecrawl
 ```
 
-The AI SDK adapter has **peer dependencies** on `ai` (v5) and `zod`:
+The **Vercel AI SDK adapter is built into core** and is the default for `web.tools()`. To use tools, also install `ai` (v5) — it's an optional peer dependency of core:
 
 ```bash
-pnpm add ai zod
+pnpm add ai
 ```
 
 > Requires Node.js 18+ (uses the global `fetch`).
@@ -73,21 +73,19 @@ pnpm add ai zod
 ## Quick start
 
 ```ts
-import { WebSearch } from "@websearch-sdk/core";
-import { firecrawl } from "@websearch-sdk/firecrawl";
-import { aiSdk } from "@websearch-sdk/ai-sdk";
+import { WebSearch } from "@search-sdk/core";
+import { firecrawl } from "@search-sdk/firecrawl";
 
 const web = new WebSearch({
   // apiKey is optional — falls back to the FIRECRAWL_API_KEY env var
   provider: firecrawl(),
-  framework: aiSdk(),
 });
 
 // Direct, unified API
 const results = await web.search({ query: "latest TypeScript release" });
 const page = await web.scrape({ url: "https://example.com" });
 
-// Or hand tools to an agent
+// Or hand tools to an agent — defaults to the built-in AI SDK adapter
 const tools = web.tools(); // -> { web_search, web_scrape }
 ```
 
@@ -129,7 +127,7 @@ console.log(page.markdown);
 
 ### Tools for AI frameworks
 
-`web.tools()` returns a Vercel AI SDK `ToolSet` you can pass straight into `generateText` / `streamText`. `web_scrape` is included only when the provider supports it.
+`web.tools()` returns a Vercel AI SDK `ToolSet` you can pass straight into `generateText` / `streamText`. The **AI SDK adapter is built into core and used by default** — no extra package or `framework` option required. `web_scrape` is included only when the provider supports it.
 
 ```ts
 import { generateText, stepCountIs } from "ai";
@@ -137,31 +135,55 @@ import { openai } from "@ai-sdk/openai";
 
 const { text } = await generateText({
   model: openai("gpt-4o-mini"),
-  tools: web.tools(),
+  tools: web.tools(), // default AI SDK tools
   stopWhen: stepCountIs(5),
   prompt: "Find the latest stable pnpm version and summarize what changed.",
 });
 ```
 
-Customize tool names/descriptions:
+To customize tool names/descriptions, import `aiSdk` from core and pass it as the `framework`:
 
 ```ts
-aiSdk({
-  searchToolName: "search_the_web",
-  scrapeToolName: "read_url",
-  searchDescription: "Search the public web for current information.",
+import { WebSearch, aiSdk } from "@search-sdk/core";
+
+const web = new WebSearch({
+  provider: firecrawl(),
+  framework: aiSdk({
+    searchToolName: "search_the_web",
+    scrapeToolName: "read_url",
+    searchDescription: "Search the public web for current information.",
+  }),
 });
+```
+
+### Custom frameworks
+
+`framework` accepts any object implementing the `FrameworkAdapter` contract, so you can target other agent frameworks while reusing the same provider:
+
+```ts
+import type { FrameworkAdapter } from "@search-sdk/core";
+
+const myAdapter: FrameworkAdapter = {
+  name: "my-framework",
+  createTools({ web, provider }) {
+    return {
+      /* build your framework's tools from web.search / web.scrape */
+    };
+  },
+};
+
+const web = new WebSearch({ provider: firecrawl(), framework: myAdapter });
 ```
 
 ## Providers
 
 | Package | Search | Scrape | Env variable | Get a key |
 | --- | :---: | :---: | --- | --- |
-| `@websearch-sdk/firecrawl` | ✅ | ✅ | `FIRECRAWL_API_KEY` | [firecrawl.dev](https://firecrawl.dev) |
-| `@websearch-sdk/tavily` | ✅ | ✅ (extract) | `TAVILY_API_KEY` | [tavily.com](https://tavily.com) |
-| `@websearch-sdk/exa` | ✅ | ✅ (contents) | `EXA_API_KEY` | [exa.ai](https://exa.ai) |
-| `@websearch-sdk/brave` | ✅ | — | `BRAVE_API_KEY` | [brave.com/search/api](https://brave.com/search/api/) |
-| `@websearch-sdk/serper` | ✅ | — | `SERPER_API_KEY` | [serper.dev](https://serper.dev) |
+| `@search-sdk/firecrawl` | ✅ | ✅ | `FIRECRAWL_API_KEY` | [firecrawl.dev](https://firecrawl.dev) |
+| `@search-sdk/tavily` | ✅ | ✅ (extract) | `TAVILY_API_KEY` | [tavily.com](https://tavily.com) |
+| `@search-sdk/exa` | ✅ | ✅ (contents) | `EXA_API_KEY` | [exa.ai](https://exa.ai) |
+| `@search-sdk/brave` | ✅ | — | `BRAVE_API_KEY` | [brave.com/search/api](https://brave.com/search/api/) |
+| `@search-sdk/serper` | ✅ | — | `SERPER_API_KEY` | [serper.dev](https://serper.dev) |
 
 Every provider factory accepts an optional `{ apiKey?, baseUrl? }`. The rest of your code is identical no matter which one you pick.
 
@@ -178,7 +200,7 @@ firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 If no key is passed and none is found in the environment, the factory throws a `MissingApiKeyError` (a subclass of `WebSearchError`) naming the provider and the env variables it checked:
 
 ```ts
-import { MissingApiKeyError, isMissingApiKeyError } from "@websearch-sdk/core";
+import { MissingApiKeyError, isMissingApiKeyError } from "@search-sdk/core";
 
 try {
   const web = new WebSearch({ provider: tavily() });
@@ -193,11 +215,11 @@ try {
 ### Provider examples
 
 ```ts
-import { firecrawl } from "@websearch-sdk/firecrawl";
-import { tavily } from "@websearch-sdk/tavily";
-import { exa } from "@websearch-sdk/exa";
-import { brave } from "@websearch-sdk/brave";
-import { serper } from "@websearch-sdk/serper";
+import { firecrawl } from "@search-sdk/firecrawl";
+import { tavily } from "@search-sdk/tavily";
+import { exa } from "@search-sdk/exa";
+import { brave } from "@search-sdk/brave";
+import { serper } from "@search-sdk/serper";
 
 // apiKey is optional — each reads its own env var (e.g. TAVILY_API_KEY) by default.
 const providers = {
@@ -261,20 +283,18 @@ Errors are normalized to `WebSearchError` (with `provider` and optional `status`
 ## Architecture
 
 ```
-@websearch-sdk/core            WebSearch class + unified types + provider/framework contracts
-@websearch-sdk/<provider>      firecrawl · tavily · exa · brave · serper
-@websearch-sdk/ai-sdk          Vercel AI SDK adapter -> web_search / web_scrape tools
+@search-sdk/core            WebSearch class + unified types + provider contracts
+                               + the built-in Vercel AI SDK adapter (default for tools())
+@search-sdk/<provider>      firecrawl · tavily · exa · brave · serper
 ```
 
-Three decoupled layers: **core** knows nothing about providers or frameworks; **providers** and **framework adapters** each depend only on core. Adding a provider or framework is purely additive.
+**core** is provider-agnostic and ships the AI SDK adapter as the default framework; **providers** depend only on core. You can still pass a custom `framework` adapter to target other agent frameworks. Adding a provider or framework is purely additive.
 
 ```
 packages/
-  core/                      # @websearch-sdk/core
+  core/                      # @search-sdk/core (incl. src/frameworks/ai-sdk.ts)
   providers/
     firecrawl/  tavily/  exa/  brave/  serper/
-  frameworks/
-    ai-sdk/                  # @websearch-sdk/ai-sdk
 examples/
   ai-sdk-agent/              # runnable end-to-end demo
 ```
@@ -305,7 +325,7 @@ pnpm typecheck
 export FIRECRAWL_API_KEY=...
 export OPENAI_API_KEY=...
 
-pnpm --filter @websearch-sdk/example-ai-sdk-agent start
+pnpm --filter @search-sdk/example-ai-sdk-agent start
 ```
 
 Swap `firecrawl(...)` for any other provider in `examples/ai-sdk-agent/src/main.ts` and the rest of the code stays identical — that's the core promise.
@@ -313,7 +333,7 @@ Swap `firecrawl(...)` for any other provider in `examples/ai-sdk-agent/src/main.
 ## Adding a provider
 
 1. Create `packages/providers/<name>` (copy an existing provider's `package.json`, `tsconfig.json`, `tsup.config.ts`).
-2. Implement the `SearchProvider` contract from `@websearch-sdk/core`:
+2. Implement the `SearchProvider` contract from `@search-sdk/core`:
    ```ts
    export function myProvider(opts: { apiKey: string }): SearchProvider {
      return {

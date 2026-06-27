@@ -1,11 +1,11 @@
-import { requestJson, resolveApiKey } from "@websearch-sdk/core";
+import { requestJson, resolveApiKey } from "@search-sdk/core";
 import type {
   ScrapeOptions,
   ScrapeResult,
   SearchOptions,
   SearchProvider,
   SearchResponse,
-} from "@websearch-sdk/core";
+} from "@search-sdk/core";
 import { z } from "zod";
 import {
   normalizeContents,

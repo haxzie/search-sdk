@@ -21,15 +21,29 @@ describe("firecrawl provider", () => {
     expect(provider.capabilities).toEqual({ search: true, scrape: true });
   });
 
-  it("throws MissingApiKeyError when no key is provided or in the env", () => {
+  it("runs keyless (no Authorization header) when no key is provided", async () => {
     vi.stubEnv("FIRECRAWL_API_KEY", "");
-    expect(() => firecrawl()).toThrowError(/No API key provided for "firecrawl"/);
+    const fetchSpy = mockFetchOnce({ success: true, data: { web: [] } });
+
+    const provider = firecrawl();
+    await provider.search({ query: "x" });
+
+    const init = fetchSpy.mock.calls[0]![1] as RequestInit;
+    const headers = (init.headers ?? {}) as Record<string, string>;
+    expect(headers.authorization).toBeUndefined();
     vi.unstubAllEnvs();
   });
 
-  it("falls back to the FIRECRAWL_API_KEY environment variable", () => {
+  it("sends a bearer token when FIRECRAWL_API_KEY is set", async () => {
     vi.stubEnv("FIRECRAWL_API_KEY", "fc-from-env");
-    expect(() => firecrawl()).not.toThrow();
+    const fetchSpy = mockFetchOnce({ success: true, data: { web: [] } });
+
+    const provider = firecrawl();
+    await provider.search({ query: "x" });
+
+    const init = fetchSpy.mock.calls[0]![1] as RequestInit;
+    const headers = (init.headers ?? {}) as Record<string, string>;
+    expect(headers.authorization).toBe("Bearer fc-from-env");
     vi.unstubAllEnvs();
   });
 

@@ -36,6 +36,9 @@ coverage/
 *.local
 .secrets
 
+# Claude Code local state & worktrees
+.claude/
+
 # Editor / IDE
 .idea/
 .vscode/*

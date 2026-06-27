@@ -1,7 +1,7 @@
 {
-  "name": "@websearch-sdk/firecrawl",
+  "name": "@search-sdk/firecrawl",
   "version": "0.0.0",
-  "description": "Firecrawl provider for @websearch-sdk — web search + scrape.",
+  "description": "Firecrawl provider for @search-sdk — web search + scrape.",
   "type": "module",
   "license": "MIT",
   "sideEffects": false,
@@ -23,7 +23,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@websearch-sdk/core": "workspace:*",
+    "@search-sdk/core": "workspace:*",
     "zod": "^3.24.1"
   },
   "publishConfig": {

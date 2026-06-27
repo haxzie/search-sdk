@@ -1,5 +1,5 @@
 {
-  "name": "@websearch-sdk/core",
+  "name": "@search-sdk/core",
   "version": "0.0.0",
   "description": "Unified, provider-agnostic web search SDK core — the WebSearch class and normalized result types.",
   "type": "module",
@@ -21,6 +21,20 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  },
+  "peerDependencies": {
+    "ai": "^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "ai": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "ai": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"

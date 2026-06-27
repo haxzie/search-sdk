@@ -23,6 +23,26 @@ export interface ResolveApiKeyOptions {
 }
 
 /**
+ * Resolve a provider API key from an explicit value or the environment, without
+ * throwing. Returns `undefined` when none is found — for providers that can run
+ * without a key (e.g. Firecrawl's keyless tier).
+ */
+export function resolveOptionalApiKey(options: {
+  apiKey?: string;
+  envVars: string[];
+}): string | undefined {
+  const explicit = options.apiKey?.trim();
+  if (explicit) return explicit;
+
+  for (const name of options.envVars) {
+    const value = readEnv(name)?.trim();
+    if (value) return value;
+  }
+
+  return undefined;
+}
+
+/**
  * Resolve a provider API key from an explicit value or, failing that, from the
  * environment. Throws {@link MissingApiKeyError} when neither is available so
  * every provider reports missing keys the same way.

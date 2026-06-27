@@ -1,7 +1,7 @@
 {
-  "name": "@websearch-sdk/serper",
+  "name": "@search-sdk/serper",
   "version": "0.0.0",
-  "description": "Serper provider for @websearch-sdk — Google SERP web search.",
+  "description": "Serper provider for @search-sdk — Google SERP web search.",
   "type": "module",
   "license": "MIT",
   "sideEffects": false,
@@ -23,7 +23,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@websearch-sdk/core": "workspace:*",
+    "@search-sdk/core": "workspace:*",
     "zod": "^3.24.1"
   },
   "publishConfig": {

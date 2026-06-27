@@ -1,7 +1,7 @@
 {
-  "name": "@websearch-sdk/tavily",
+  "name": "@search-sdk/tavily",
   "version": "0.0.0",
-  "description": "Tavily provider for @websearch-sdk — AI web search + extract.",
+  "description": "Tavily provider for @search-sdk — AI web search + extract.",
   "type": "module",
   "license": "MIT",
   "sideEffects": false,
@@ -23,7 +23,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@websearch-sdk/core": "workspace:*",
+    "@search-sdk/core": "workspace:*",
     "zod": "^3.24.1"
   },
   "publishConfig": {

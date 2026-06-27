@@ -1,9 +1,9 @@
-import { hostnameOf } from "@websearch-sdk/core";
+import { hostnameOf } from "@search-sdk/core";
 import type {
   ScrapeResult,
   SearchResponse,
   SearchResult,
-} from "@websearch-sdk/core";
+} from "@search-sdk/core";
 
 export interface TavilySearchResultItem {
   title?: string;

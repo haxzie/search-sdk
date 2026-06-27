@@ -1,7 +1,6 @@
 packages:
   - "packages/core"
   - "packages/providers/*"
-  - "packages/frameworks/*"
   - "examples/*"
 allowBuilds:
   esbuild: true
