@@ -4,11 +4,32 @@ import Link from "next/link";
 import { Container } from "@/components/section";
 import { CodeBlock } from "@/components/code-block";
 import { DocsSidebar, type DocsNavGroup } from "@/components/docs-sidebar";
+import { CopyMarkdownButton } from "@/components/copy-markdown-button";
+import { JsonLd } from "@/components/json-ld";
+import {
+  DOCS_DESCRIPTION,
+  DOCS_MARKDOWN,
+  DOCS_TITLE,
+} from "@/lib/docs-content";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Docs",
-  description:
-    "Documentation for websearch-sdk — a unified web search SDK for AI agents. Install, search, scrape, hand tools to your agent, and add providers.",
+  description: DOCS_DESCRIPTION,
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  headline: `${DOCS_TITLE} · search-sdk`,
+  description: DOCS_DESCRIPTION,
+  url: `${SITE_URL}/docs/`,
+  inLanguage: "en",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "search-sdk",
+    url: SITE_URL,
+  },
 };
 
 const nav: DocsNavGroup[] = [
@@ -75,6 +96,15 @@ export default function DocsPage() {
 
         {/* Content */}
         <article className="min-w-0 max-w-3xl space-y-16">
+          <JsonLd data={jsonLd} />
+
+          <div className="flex items-start justify-between gap-4">
+            <h1 className="text-3xl font-semibold tracking-tight">
+              {DOCS_TITLE}
+            </h1>
+            <CopyMarkdownButton markdown={DOCS_MARKDOWN} className="mt-1" />
+          </div>
+
           <section className="space-y-4">
             <H2 id="introduction">Introduction</H2>
             <P>

@@ -1,0 +1,37 @@
+# search-sdk
+
+> A unified web search SDK for AI agents. Swap search and scrape providers — Firecrawl, Tavily, Exa, Brave, Serper — without touching your app code, and hand framework-native tools straight to your agent.
+
+search-sdk normalizes two things that differ across every integration: the response shape of each search/scrape provider, and the tool format of each agent framework. `search()` and `scrape()` always return the same unified types regardless of provider, and `web.tools()` returns framework-native tools (the Vercel AI SDK adapter is built in and used by default).
+
+## Documentation
+
+- [Docs](https://websearch-sdk.dev/docs/): Install, search, scrape, hand tools to your agent, error handling, unified types, architecture, and adding a provider.
+- [Providers](https://websearch-sdk.dev/providers/): Firecrawl, Tavily, Exa, Brave and Serper — capabilities, env variables, and per-provider setup.
+- [Adapters](https://websearch-sdk.dev/adapters/): Turn unified capabilities into framework-native tools; built-in Vercel AI SDK adapter and custom adapters.
+
+## Packages
+
+- `@search-sdk/core`: WebSearch class, unified types, provider contracts, and the built-in Vercel AI SDK adapter.
+- `@search-sdk/firecrawl`: Search + full-page scraping with clean markdown output.
+- `@search-sdk/tavily`: Search built for LLMs with optional synthesized answers and content extraction.
+- `@search-sdk/exa`: Neural, embeddings-based search with page contents retrieval and synthesized answers.
+- `@search-sdk/brave`: Independent, privacy-first web index (search only).
+- `@search-sdk/serper`: Fast Google SERP results with knowledge-graph answers (search only).
+
+## Quick start
+
+```ts
+import { WebSearch } from "@search-sdk/core";
+import { firecrawl } from "@search-sdk/firecrawl";
+
+const web = new WebSearch({ provider: firecrawl() });
+
+const results = await web.search({ query: "latest TypeScript release" });
+const page = await web.scrape({ url: "https://example.com" });
+const tools = web.tools(); // -> { web_search, web_scrape }
+```
+
+## More
+
+- [GitHub repository](https://github.com/haxzie/search-sdk): Source, issues, and releases.

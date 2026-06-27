@@ -3,13 +3,38 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Github, Menu, X } from "lucide-react";
+import { Github, Menu, Star, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { GITHUB_REPO, GITHUB_URL } from "@/lib/site";
 import { Logo } from "./logo";
 import { ThemeToggle } from "./theme-toggle";
 
-const GITHUB_URL = "https://github.com/haxzie/websearch-sdk";
+function formatStars(n: number) {
+  if (n >= 1000) return `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k`;
+  return String(n);
+}
+
+function useGithubStars(repo: string) {
+  const [stars, setStars] = React.useState<number | null>(null);
+
+  React.useEffect(() => {
+    let active = true;
+    fetch(`https://api.github.com/repos/${repo}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (active && data && typeof data.stargazers_count === "number") {
+          setStars(data.stargazers_count);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [repo]);
+
+  return stars;
+}
 
 const links = [
   { href: "/providers", label: "Providers" },
@@ -20,6 +45,7 @@ const links = [
 export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
+  const stars = useGithubStars(GITHUB_REPO);
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(href + "/");
@@ -55,9 +81,15 @@ export function Navbar() {
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            className="inline-flex h-9 items-center gap-2 rounded-md px-2.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
           >
             <Github className="h-4 w-4" />
+            {stars !== null ? (
+              <span className="hidden items-center gap-1 text-xs font-medium tabular-nums sm:inline-flex">
+                <Star className="h-3.5 w-3.5 fill-current" />
+                {formatStars(stars)}
+              </span>
+            ) : null}
           </a>
           <ThemeToggle />
           <button

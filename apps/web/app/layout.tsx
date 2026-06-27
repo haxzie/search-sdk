@@ -5,6 +5,8 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { JsonLd } from "@/components/json-ld";
+import { GITHUB_URL, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://websearch-sdk.dev"),
@@ -34,6 +36,30 @@ export const metadata: Metadata = {
   },
 };
 
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: "search-sdk",
+      url: SITE_URL,
+      description:
+        "A unified web search SDK for AI agents — swap Firecrawl, Tavily, Exa, Brave and Serper without touching your app code.",
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      name: "search-sdk",
+      description:
+        "One unified web search and scrape API for AI agents, with pluggable providers and framework-native tool adapters.",
+      codeRepository: GITHUB_URL,
+      url: SITE_URL,
+      programmingLanguage: "TypeScript",
+      license: "https://opensource.org/licenses/MIT",
+    },
+  ],
+};
+
 const themeScript = `
 (function() {
   try {
@@ -57,6 +83,7 @@ export default function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <JsonLd data={siteJsonLd} />
       </head>
       <body className="min-h-screen font-sans antialiased">
         <Navbar />
