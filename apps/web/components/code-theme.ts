@@ -32,3 +32,35 @@ export const flatDark = createTheme({
     { tag: [t.meta], color: "#7aa2f7" },
   ],
 });
+
+// Light counterpart, tuned for contrast on the site's light card background.
+export const flatLight = createTheme({
+  theme: "light",
+  settings: {
+    background: "transparent",
+    backgroundImage: "",
+    foreground: "#1f2328",
+    caret: "#1f2328",
+    selection: "#e4e4e7",
+    selectionMatch: "#e4e4e7",
+    lineHighlight: "transparent",
+    gutterBackground: "transparent",
+    gutterForeground: "#a1a1aa",
+    gutterBorder: "transparent",
+  },
+  styles: [
+    { tag: t.comment, color: "#6b7280", fontStyle: "italic" },
+    { tag: [t.string, t.special(t.string)], color: "#0a7d33" },
+    { tag: [t.number, t.bool, t.null], color: "#b45309" },
+    { tag: [t.keyword, t.operatorKeyword, t.modifier], color: "#8250df" },
+    { tag: [t.definitionKeyword, t.controlKeyword], color: "#8250df" },
+    { tag: [t.function(t.variableName), t.function(t.propertyName)], color: "#1f5fd1" },
+    { tag: [t.propertyName], color: "#0969a7" },
+    { tag: [t.variableName, t.attributeName], color: "#1f2328" },
+    { tag: [t.typeName, t.className, t.namespace], color: "#0a7a8c" },
+    { tag: [t.punctuation, t.separator, t.bracket], color: "#57606a" },
+    { tag: [t.operator], color: "#0550ae" },
+    { tag: [t.tagName], color: "#b81e4a" },
+    { tag: [t.meta], color: "#1f5fd1" },
+  ],
+});

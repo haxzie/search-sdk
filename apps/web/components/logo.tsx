@@ -12,22 +12,17 @@ export function Logo({ className }: { className?: string }) {
         className="text-foreground"
         aria-hidden="true"
       >
-        <circle
-          cx="10.5"
-          cy="10.5"
-          r="6.5"
-          stroke="currentColor"
-          strokeWidth="2"
-        />
         <path
-          d="M15.5 15.5L21 21"
+          fill="none"
           stroke="currentColor"
-          strokeWidth="2"
           strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M3 12h5m-5 0a9 9 0 0 0 9 9m-9-9a9 9 0 0 1 9-9m-4 9h8m-8 0c0 4.97 1.79 9 4 9m-4-9c0-4.97 1.79-9 4-9m4 9h5m-5 0c0-4.97-1.79-9-4-9m4 9c0 4.97-1.79 9-4 9m9-9a9 9 0 0 0-9-9m9 9a9 9 0 0 1-9 9"
         />
       </svg>
-      <span className="text-[15px] font-semibold tracking-tight">
-        websearch<span className="text-muted-foreground">-sdk</span>
+      <span className="text-[15px] font-semibold leading-none tracking-tight">
+        search<span className="text-muted-foreground">-sdk</span>
       </span>
     </span>
   );

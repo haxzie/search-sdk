@@ -10,6 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Container, SectionHeading } from "@/components/section";
 import { CodeBlock } from "@/components/code-block";
+import { ProviderIcon } from "@/components/provider-icon";
 import { providers } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -63,8 +64,12 @@ export default function ProvidersPage() {
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background font-mono text-sm font-semibold">
-                    {p.name.slice(0, 2)}
+                  <span className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg border border-border bg-background">
+                    <ProviderIcon
+                      id={p.id}
+                      name={p.name}
+                      className="h-6 w-6"
+                    />
                   </span>
                   <div>
                     <h3 className="font-semibold leading-tight">{p.name}</h3>

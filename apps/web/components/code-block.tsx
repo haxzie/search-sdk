@@ -7,7 +7,22 @@ import { EditorView } from "@codemirror/view";
 import { Check, Copy } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { flatDark } from "./code-theme";
+import { flatDark, flatLight } from "./code-theme";
+
+function useIsDark() {
+  const [dark, setDark] = React.useState(true);
+
+  React.useEffect(() => {
+    const root = document.documentElement;
+    const update = () => setDark(root.classList.contains("dark"));
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+
+  return dark;
+}
 
 const extensions = [
   javascript({ jsx: true, typescript: true }),
@@ -30,6 +45,7 @@ export function CodeBlock({
   showLineNumbers = false,
 }: CodeBlockProps) {
   const [copied, setCopied] = React.useState(false);
+  const isDark = useIsDark();
 
   const copy = React.useCallback(() => {
     navigator.clipboard.writeText(code).then(() => {
@@ -72,7 +88,7 @@ export function CodeBlock({
       <div className="overflow-x-auto p-4">
         <CodeMirror
           value={code}
-          theme={flatDark}
+          theme={isDark ? flatDark : flatLight}
           extensions={extensions}
           editable={false}
           basicSetup={{
