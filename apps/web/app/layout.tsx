@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 
+import { GoogleAnalytics } from "@next/third-parties/google";
+
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { JsonLd } from "@/components/json-ld";
-import { GITHUB_URL, SITE_URL } from "@/lib/site";
+import { GA_MEASUREMENT_ID, GITHUB_URL, SITE_URL } from "@/lib/site";
 
 const SITE_NAME = "websearch-sdk";
 const TITLE = "websearch-sdk — One web search API for every provider";
@@ -128,6 +130,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
       </body>
+      <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
     </html>
   );
 }
