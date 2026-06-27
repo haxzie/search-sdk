@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src=".github/assets/cover.png" alt="Web Search SDK — one unified web search API for every provider" width="100%" />
+
 # websearch-sdk
 
 **A unified web search SDK to plug into AI agents.**

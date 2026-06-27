@@ -8,14 +8,25 @@ import { Footer } from "@/components/footer";
 import { JsonLd } from "@/components/json-ld";
 import { GITHUB_URL, SITE_URL } from "@/lib/site";
 
+const SITE_NAME = "websearch-sdk";
+const TITLE = "websearch-sdk — One web search API for every provider";
+const DESCRIPTION =
+  "A unified web search SDK for AI agents. Swap search and scrape providers — Firecrawl, Tavily, Exa, Brave, Serper — without touching your app code, and hand framework-native tools straight to your agent.";
+const OG_IMAGE = {
+  url: "/og-image.png",
+  width: 1200,
+  height: 630,
+  alt: "Web Search SDK — one unified web search API for every provider",
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://websearch-sdk.dev"),
+  metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
   title: {
-    default: "websearch-sdk — One web search API for every provider",
+    default: TITLE,
     template: "%s · websearch-sdk",
   },
-  description:
-    "A unified web search SDK for AI agents. Swap search and scrape providers — Firecrawl, Tavily, Exa, Brave, Serper — without touching your app code, and hand framework-native tools straight to your agent.",
+  description: DESCRIPTION,
   keywords: [
     "web search",
     "ai agents",
@@ -28,11 +39,38 @@ export const metadata: Metadata = {
     "scraping",
     "typescript",
   ],
+  authors: [{ name: "haxzie", url: "https://github.com/haxzie" }],
+  creator: "haxzie",
+  publisher: "haxzie",
+  category: "technology",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "websearch-sdk",
-    description:
-      "One unified web search API for AI agents. Swap providers without touching your app code.",
     type: "website",
+    siteName: SITE_NAME,
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    locale: "en_US",
+    images: [OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    creator: "@haxzie",
+    images: [OG_IMAGE],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
