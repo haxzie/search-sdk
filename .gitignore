@@ -9,6 +9,9 @@ dist/
 build/
 out/
 lib/
+# ...but keep source lib dirs in apps (shadcn convention)
+!apps/*/lib/
+.next/
 *.tsbuildinfo
 .tsbuildinfo
 
