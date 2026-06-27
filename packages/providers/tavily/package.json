@@ -1,6 +1,6 @@
 {
   "name": "@search-sdk/tavily",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Tavily provider for @search-sdk — AI web search + extract.",
   "type": "module",
   "license": "MIT",
@@ -15,7 +15,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
